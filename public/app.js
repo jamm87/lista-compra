@@ -1,9 +1,8 @@
-// --- app.js (versión corregida y reorganizada) ---
+// --- app.js (versión COMPLETA y corregida) ---
 
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- 1. REFERENCIAS AL DOM ---
-    // Referencias a los elementos del DOM principales
     const productosHabitualesUl = document.getElementById('productos-habituales');
     const listaHoyUl = document.getElementById('lista-hoy');
     const copiarListaBtn = document.getElementById('copiar-lista');
@@ -11,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadCustomListBtn = document.getElementById('load-custom-list-btn');
     const resetListBtn = document.getElementById('reset-list-btn');
 
-    // Referencias a los elementos de la modal OCR
     const openOcrModalBtn = document.getElementById('open-ocr-modal-btn');
     const ocrModal = document.getElementById('ocr-modal');
     const closeOcrModalBtn = document.getElementById('close-ocr-modal-btn');
@@ -20,21 +18,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const analyzeImageBtn = document.getElementById('analyze-image-btn');
     const ocrLoader = document.getElementById('ocr-loader');
     
-    // Lista por defecto
     const productosHabitualesDefault = ["Leche", "Pan de molde", "Huevos", "Yogur", "Pollo"];
+    const categorias = { 'Lácteos y Huevos': ['leche', 'yogur', 'huevo', 'queso', 'mantequilla'], 'Carnicería y Pescadería': ['pollo', 'ternera', 'cerdo', 'pavo', 'salchichas', 'pescado', 'atún', 'salmón'], 'Frutas y Verduras': ['tomate', 'lechuga', 'cebolla', 'patata', 'fruta', 'manzana', 'plátano', 'naranja', 'pimiento', 'pepino'], 'Panadería y Repostería': ['pan', 'galletas', 'bollería'], 'Despensa': ['aceite', 'sal', 'pasta', 'arroz', 'lentejas', 'garbanzos', 'harina', 'azúcar', 'conservas'], 'Bebidas': ['cerveza', 'vino', 'agua', 'refresco', 'zumo'], 'Higiene y Limpieza': ['papel higiénico', 'gel', 'champú', 'detergente', 'suavizante', 'lavavajillas'], };
+    const CATEGORIA_OTROS = 'Otros';
 
 
     // --- 2. DEFINICIÓN DE FUNCIONES ---
 
     function categorizarProducto(producto) {
-        const categorias = { 'Lácteos y Huevos': ['leche', 'yogur', 'huevo'], 'Carnicería': ['pollo', 'ternera'], 'Otros': [] };
         const productoLower = producto.toLowerCase();
         for (const categoria in categorias) {
             if (categorias[categoria].some(keyword => productoLower.includes(keyword))) {
                 return categoria;
             }
         }
-        return 'Otros';
+        return CATEGORIA_OTROS;
     }
 
     function cargarProductosHabituales(productosArray) {
@@ -99,12 +97,59 @@ document.addEventListener('DOMContentLoaded', () => {
         loadCustomListBtn.textContent = 'Cargar mi Lista';
     }
     
+    // --- ¡¡AQUÍ ESTÁ EL CÓDIGO QUE FALTABA!! ---
     function añadirProductoAListaHoy(nombreProducto) {
-        // ... (código de esta función)
+        const productosActuales = Array.from(listaHoyUl.querySelectorAll('li span.product-name'));
+        const yaEstaEnLista = productosActuales.some(span => span.textContent === nombreProducto);
+
+        if (yaEstaEnLista) {
+            console.log(`El producto "${nombreProducto}" ya está en tu lista.`);
+            return;
+        }
+        const li = document.createElement('li');
+        const nombreSpan = document.createElement('span');
+        nombreSpan.textContent = nombreProducto;
+        nombreSpan.className = 'product-name';
+        
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'Quitar';
+        removeButton.className = 'remove-btn';
+        removeButton.addEventListener('click', () => {
+            li.remove();
+        });
+
+        li.appendChild(nombreSpan);
+        li.appendChild(removeButton);
+        listaHoyUl.appendChild(li);
     }
     
     function copiarListaAlPortapapeles() {
-        // ... (código de esta función)
+        const productosSpans = Array.from(listaHoyUl.querySelectorAll('li span.product-name'));
+        if (productosSpans.length === 0) {
+            return alert('Tu lista de hoy está vacía.');
+        }
+        const productos = productosSpans.map(span => span.textContent);
+        const productosCategorizados = {};
+        productos.forEach(producto => {
+            const categoria = categorizarProducto(producto);
+            if (!productosCategorizados[categoria]) {
+                productosCategorizados[categoria] = [];
+            }
+            productosCategorizados[categoria].push(producto);
+        });
+        let textoFormateado = '🛒 *Mi lista de la compra:*\n';
+        Object.keys(productosCategorizados).sort().forEach(categoria => {
+            textoFormateado += `\n*${categoria}:*\n`;
+            productosCategorizados[categoria].sort().forEach(producto => {
+                textoFormateado += `- ${producto}\n`;
+            });
+        });
+        navigator.clipboard.writeText(textoFormateado).then(() => {
+            alert('¡Lista categorizada copiada al portapapeles!');
+        }).catch(err => {
+            console.error('Error al copiar la lista: ', err);
+            alert('No se pudo copiar la lista.');
+        });
     }
 
     function iniciarListaHabitual() {
@@ -117,17 +162,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function resetearAListaDefault() {
-        // ... (código de esta función)
+        localStorage.removeItem('miListaHabitual');
+        customProductsInput.value = '';
+        cargarProductosHabituales(productosHabitualesDefault);
+        alert('La lista de productos ha sido restaurada.');
     }
 
     // --- 3. ASIGNACIÓN DE EVENTOS ---
     
-    // Eventos principales
     loadCustomListBtn.addEventListener('click', procesarListaPersonalizada);
     resetListBtn.addEventListener('click', resetearAListaDefault);
     copiarListaBtn.addEventListener('click', copiarListaAlPortapapeles);
 
-    // Eventos de la modal OCR
     openOcrModalBtn.addEventListener('click', () => ocrModal.style.display = 'flex');
     closeOcrModalBtn.addEventListener('click', () => ocrModal.style.display = 'none');
     ocrModal.addEventListener('click', (event) => {
@@ -174,7 +220,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const listaCombinada = [...new Set([...productosActuales, ...normalizedProducts])];
 
             localStorage.setItem('miListaHabitual', JSON.stringify(listaCombinada));
-            cargarProductosHabituales(listaCombinada); // <--- ESTA ES LA LÍNEA QUE DABA EL ERROR
+            cargarProductosHabituales(listaCombinada);
 
             alert('¡Productos del ticket añadidos a la lista de habituales!');
             ocrModal.style.display = 'none';
@@ -190,8 +236,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-
     // --- 4. INICIALIZACIÓN ---
     iniciarListaHabitual();
-
 });
