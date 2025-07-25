@@ -1,0 +1,206 @@
+/* --- Importación de la fuente de Material Design (Roboto) --- */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+/* --- Variables de Color (Paleta estilo Material) --- */
+:root {
+    --md-primary-color: #6200EE; /* Morado Material principal */
+    --md-primary-variant-color: #3700B3;
+    --md-secondary-color: #03DAC6; /* Verde azulado secundario */
+    --md-background-color: #f5f5f5; /* Fondo ligeramente gris */
+    --md-surface-color: #FFFFFF; /* Color de las superficies (tarjetas) */
+    --md-on-primary-color: #FFFFFF;
+    --md-on-surface-color: #000000;
+    --md-error-color: #B00020; /* Rojo para errores/eliminar */
+    --md-success-color: #4CAF50; /* Verde para éxito/copiar */
+    --md-text-primary: rgba(0, 0, 0, 0.87);
+    --md-text-secondary: rgba(0, 0, 0, 0.6);
+    --md-divider-color: rgba(0, 0, 0, 0.12);
+}
+
+/* --- Estilos Generales --- */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--md-background-color);
+    color: var(--md-text-primary);
+    margin: 0;
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
+    font-weight: 400;
+    color: var(--md-text-primary);
+    font-size: 2.5em;
+    margin-bottom: 32px;
+}
+
+h2 {
+    font-size: 1.25em;
+    font-weight: 500;
+    color: var(--md-primary-color);
+    margin-top: 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--md-divider-color);
+}
+
+.container {
+    display: flex;
+    gap: 24px;
+    max-width: 900px;
+    margin: 20px auto;
+}
+
+/* --- Estilo de las Columnas (Superficies Elevadas) --- */
+.column {
+    flex: 1;
+    background-color: var(--md-surface-color);
+    padding: 24px;
+    border-radius: 8px; /* Bordes más sutiles */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.1); /* Sombra de elevación */
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.column:hover {
+     box-shadow: 0 4px 8px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* --- Estilo de las Listas y sus Elementos --- */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    background-color: transparent; /* El fondo lo da la columna */
+    padding: 12px 8px;
+    border-bottom: 1px solid var(--md-divider-color); /* Divisores entre elementos */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background-color 0.3s;
+    margin-bottom: 0; /* Quitamos el margen */
+    box-shadow: none; /* Quitamos la sombra individual */
+    border-radius: 0;
+}
+
+li:last-child {
+    border-bottom: none; /* El último elemento no necesita divisor */
+}
+
+li:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* --- Títulos de Categoría --- */
+.category-title {
+    font-size: 1em;
+    font-weight: 700;
+    color: var(--md-text-secondary);
+    background-color: #f0f0f0;
+    padding: 8px;
+    margin-top: 16px;
+    border-bottom: 1px solid var(--md-divider-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.category-title:first-of-type {
+    margin-top: 0;
+}
+
+/* --- Estilo de Botones (Material Design) --- */
+button {
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase; /* MAYÚSCULAS en botones */
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); /* Botón elevado */
+    outline: none;
+}
+
+button:hover {
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+/* Botón "Copiar" - Principal (Contained Button) */
+#copiar-lista {
+    background-color: var(--md-success-color);
+    color: var(--md-on-primary-color);
+    width: 100%;
+    margin-top: 24px;
+    padding: 12px 20px;
+}
+#copiar-lista:hover { background-color: #388E3C; }
+
+/* Botón "Añadir" - Secundario (Contained Button) */
+.add-btn {
+    background-color: var(--md-primary-color);
+    color: var(--md-on-primary-color);
+}
+.add-btn:hover { background-color: var(--md-primary-variant-color); }
+
+/* Botón "Quitar" (Outlined Button Style) */
+.remove-btn {
+    background-color: transparent;
+    color: var(--md-error-color);
+    box-shadow: none;
+    border: 1px solid var(--md-error-color);
+    padding: 5px 10px;
+}
+.remove-btn:hover { background-color: rgba(176, 0, 32, 0.08); }
+
+/* --- Cargador de Productos Personalizado --- */
+.custom-products-loader {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 24px;
+}
+
+.custom-products-loader p {
+    font-size: 14px;
+    color: var(--md-text-secondary);
+    margin-bottom: 8px;
+}
+
+/* Textarea (Text Field) */
+textarea#custom-products-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 16px;
+    border-radius: 4px 4px 0 0; /* Solo bordes superiores redondeados */
+    border: none;
+    border-bottom: 2px solid var(--md-text-secondary);
+    background-color: #E0E0E0;
+    font-family: inherit;
+    font-size: 16px;
+    transition: border-bottom-color 0.3s, background-color 0.3s;
+}
+textarea#custom-products-input:focus {
+    outline: none;
+    border-bottom-color: var(--md-primary-color);
+    background-color: #D6D6D6;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+}
+
+/* Botones del grupo (Text Button Style) */
+#load-custom-list-btn, #reset-list-btn {
+    background-color: transparent;
+    box-shadow: none;
+}
+#load-custom-list-btn { color: var(--md-primary-color); }
+#reset-list-btn { color: var(--md-text-secondary); }
+
+#load-custom-list-btn:hover { background-color: rgba(98, 0, 238, 0.08); }
+#reset-list-btn:hover { background-color: rgba(0, 0, 0, 0.08); }

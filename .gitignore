@@ -1,0 +1,7 @@
+# Archivo .gitignore
+
+# Dependencias
+node_modules
+
+# Archivos de entorno
+.env
