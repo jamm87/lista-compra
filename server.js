@@ -4,7 +4,7 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 require('dotenv').config(); // Carga las variables del archivo .env
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Middleware para parsear JSON en las peticiones
 app.use(express.json());
