@@ -1,13 +1,48 @@
-<!-- En index.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de la Compra</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-<h1>Lista de la Compra</h1>
+    <h1>Lista de la Compra</h1>
 <!-- NUEVO BOTÓN -->
 <div class="main-actions">
     <button id="open-ocr-modal-btn">Analizar Ticket con Foto</button>
 </div>
 
 <!-- ... (tu .container con las dos columnas) ... -->
+    <div class="container">
+        <div class="column">
+            <h2>Productos Habituales</h2>
 
+            <!-- NUEVA SECCIÓN PARA AÑADIR PRODUCTOS -->
+            <div class="custom-products-loader">
+                <p>Pega tu lista de productos aquí (uno por línea o separados por comas):</p>
+                <textarea id="custom-products-input" rows="6" placeholder="Leche, Huevos, Pan..."></textarea>
+                <div class="button-group">
+                    <button id="load-custom-list-btn" class="add-btn">Cargar mi Lista</button>
+                    <button id="reset-list-btn">Volver a la Lista Original</button>
+                </div>
+            </div>
+            <!-- FIN DE LA NUEVA SECCIÓN -->
+
+            <ul id="productos-habituales">
+                <!-- Los elementos se cargarán con JavaScript -->
+            </ul>
+        </div>
+
+        <div class="column">
+            <h2>Mi Lista de Hoy</h2>
+            <ul id="lista-hoy">
+                <!-- Los elementos se añadirán dinámicamente -->
+            </ul>
+            <button id="copiar-lista">Copiar para WhatsApp</button>
+        </div>
+    </div>
 <!-- NUEVA MODAL (añadir antes de cerrar el </body>) -->
 <div id="ocr-modal" class="modal-overlay" style="display: none;">
     <div class="modal-content">
@@ -25,3 +60,4 @@
 
 <script src="app.js"></script>
 </body>
+</html>
