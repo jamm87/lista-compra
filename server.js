@@ -53,4 +53,6 @@ app.post('/api/normalize-list', async (req, res) => {
     }
 });
 
-export default app;
+app.listen(port, () => {
+    console.log(`Servidor escuchando en http://localhost:${port}`);
+});
